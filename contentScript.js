@@ -1,4 +1,4 @@
-const keyword = "skibidi";
+const keyword = ["skibidi", "toilet"];
 let overlayDisplayed = false;
 let overlay;
 const overlayDuration = 2000;
