@@ -1,4 +1,4 @@
-const keyword = "skibidi";
+const keywords = ["skibidi", "toilet"];
 let overlayDisplayed = false;
 let overlay;
 const overlayDuration = 2000;
@@ -46,8 +46,8 @@ function handleOverlayClick() {
     setTimeout(() => {
       overlay.style.pointerEvents = 'auto';
       overlay.style.opacity = '1';
-      
-      if (document.body.innerText.toLowerCase().includes(keyword.toLowerCase())) {
+
+      if (document.body.innerText.toLowerCase().includesAny(keywords)) {
         showGifOverlay();
       } else {
         if (overlay && overlay.parentNode) {
@@ -59,23 +59,22 @@ function handleOverlayClick() {
   }
 }
 
+String.prototype.includesAny = function(keywords) {
+  return keywords.some(keyword => this.includes(keyword.toLowerCase()));
+}
+
 function checkForKeyword() {
   const bodyText = document.body.innerText.toLowerCase();
-  const lowerCaseKeyword = keyword.toLowerCase();
-  console.log("Body Text:", bodyText);
-  console.log("Checking for keyword...");
-
-  if (bodyText.includes(lowerCaseKeyword) && !overlayDisplayed) {
-    console.log("Keyword found!");
+  if (keywords.some(keyword => bodyText.includes(keyword.toLowerCase())) && !overlayDisplayed) {
     showGifOverlay();
   }
 
-  if (!bodyText.includes(lowerCaseKeyword) && overlayDisplayed) {
+  if (!keywords.some(keyword => bodyText.includes(keyword.toLowerCase())) && overlayDisplayed) {
     overlayDisplayed = false;
   }
 }
 
-const observer = new MutationObserver((mutationsList) => {
+const observer = new MutationObserver(() => {
   checkForKeyword();
 });
 
